@@ -3,6 +3,8 @@ require("dotenv").config();
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const mongoSanitize = require("express-mongo-sanitize");
+const path = require("path");
+const cors = require("cors");
 
 const connectToDB = require("./config/dbConfig");
 const userRouter = require("./routes/userRoutes");
@@ -29,6 +31,17 @@ const apiLimiter = rateLimit({
 })
 app.use("/api/", apiLimiter);
 app.use(mongoSanitize());
+app.use(cors({
+    origin: ["http://localhost:3000", "https://.com"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, // Allow credentials such as cookies, authorization headers
+
+}))
+const clientBuildPath = path.join(__dirname, "../client/build");
+app.get("*", (req, res) => {
+    res.sendFile(path.join(clientBuildPath, "index.html"));
+   });
 
 app.use("/api/users", userRouter);
 app.use("/api/movies", movieRouter);
