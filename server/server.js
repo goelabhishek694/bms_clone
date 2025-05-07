@@ -32,7 +32,7 @@ const apiLimiter = rateLimit({
 app.use("/api/", apiLimiter);
 app.use(mongoSanitize());
 app.use(cors({
-    origin: ["http://localhost:3000", "https://.com"],
+    origin: ["http://localhost:3000", "https://bms-clone-t9vf.onrender.com"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true, // Allow credentials such as cookies, authorization headers
